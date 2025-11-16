@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Register from "./components/Register";
+import Login from "./components/Login";
+import AddCourse from "./components/AddCourse";
+import CourseList from "./components/CourseList";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
+      <h1>Mini Learning Platform</h1>
+
+      {/* Register Component */}
+      <div style={{ marginBottom: "40px" }}>
+        <Register />
+      </div>
+
+      {/* Login Component */}
+      <div style={{ marginBottom: "40px" }}>
+        <Login />
+      </div>
+
+      {/* Add Course Component */}
+      <div style={{ marginBottom: "40px" }}>
+        <AddCourse />
+      </div>
+
+      {/* Course List Component */}
+      <div style={{ marginBottom: "40px" }}>
+        <CourseList />
+      </div>
     </div>
   );
-}
+};
 
 export default App;
