@@ -8,14 +8,26 @@ const Register = () => {
 
   // Handle form submission
   const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent page reload
-    try {
-      const res = await api.post("/auth/register", { username, password });
-      setMessage(res.data.message); // Show success message from backend
-    } catch (err: any) {
-      setMessage(err.response?.data?.error || "Registration failed"); // Show error
-    }
-  };
+  e.preventDefault();
+
+  // Log what we are sending
+  console.log("Sending registration request:", { username, password });
+
+  try {
+    const res = await api.post("/auth/register", { username, password });
+
+    // Log the response from backend
+    console.log("Response from backend:", res.data);
+
+    setMessage(res.data.message); // Show success message
+  } catch (err: any) {
+    // Log the error in full
+    console.error("Error from backend:", err);
+
+    setMessage(err.response?.data?.error || "Registration failed"); // Show error
+  }
+};
+ 
 
   return (
     <div>
