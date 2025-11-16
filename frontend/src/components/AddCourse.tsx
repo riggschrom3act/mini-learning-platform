@@ -1,31 +1,43 @@
 import React, { useState } from "react";
-import api from "../api";
+import api from "../api"; // Axios instance pointing to backend
 
 const AddCourse = () => {
   const [title, setTitle] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [message, setMessage] = useState("");
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
+  };
+
   const handleAddCourse = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!file) {
-      setMessage("Please select a file to upload");
+
+    if (!title) {
+      setMessage("Title is required");
       return;
     }
 
+    // Prepare form data
     const formData = new FormData();
     formData.append("title", title);
-    formData.append("file", file);
+    if (file) formData.append("file", file);
 
     try {
       const res = await api.post("/courses/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
-      setMessage(`Course created with ID: ${res.data.id}`);
+
+      setMessage(`Course uploaded! ID: ${res.data.id}`);
       setTitle("");
       setFile(null);
     } catch (err: any) {
-      setMessage(err.response?.data?.error || "Failed to add course");
+      console.error(err);
+      setMessage(err.response?.data?.error || "Failed to upload course");
     }
   };
 
@@ -42,8 +54,8 @@ const AddCourse = () => {
         />
         <input
           type="file"
-          onChange={(e) => setFile(e.target.files?.[0] || null)}
-          required
+          onChange={handleFileChange}
+          accept=".pdf,.mp4,.jpg,.png" // optional file type restriction
         />
         <button type="submit">Add Course</button>
       </form>
